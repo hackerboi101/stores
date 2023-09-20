@@ -36,35 +36,63 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            const Text(
-              'Stores',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(189, 189, 189, 1),
+      body: Obx(
+        () {
+          if (storesController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            final storeWidgets = storesController.stores
+                .map((store) => buildStoresContainer(context, store))
+                .toList();
+
+            if (storesController.hasNextPage.value) {
+              storeWidgets.add(
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      storesController.loadMoreStores();
+                    },
+                    child: const Text(
+                      'Show More',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.blue,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Stores',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(189, 189, 189, 1),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: storeWidgets,
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 20),
-            Obx(
-              () {
-                final storeWidgets = storesController.stores
-                    .map((store) => buildStoresContainer(context, store))
-                    .toList();
-                return Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: storeWidgets,
-                );
-              },
-            ),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }

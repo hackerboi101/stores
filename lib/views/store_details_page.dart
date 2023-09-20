@@ -6,7 +6,7 @@ import 'package:stores/models/stores_model.dart';
 class StoreDetails extends StatelessWidget {
   StoreDetails({Key? key}) : super(key: key);
 
-  final StoresController storesController = Get.find();
+  final StoresController storesController = Get.put(StoresController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,33 +45,39 @@ class StoreDetails extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Text(
-              'Store ID: ${selectedStore.id ?? ''}',
+              selectedStore.name ?? '',
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(189, 189, 189, 1),
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              'Store Name: ${selectedStore.name ?? ''}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(189, 189, 189, 1),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                'Store ID: ${selectedStore.id ?? ''}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromRGBO(189, 189, 189, 1),
+                ),
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              'Store Location: ${selectedStore.address ?? ''}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(189, 189, 189, 1),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                'Location: ${selectedStore.address ?? ''}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromRGBO(189, 189, 189, 1),
+                ),
               ),
             ),
           ],
